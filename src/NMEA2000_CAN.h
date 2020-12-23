@@ -32,6 +32,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   #define USE_N2K_CAN 6  // for use with MBED (ARM) systems
   #define USE_N2K_CAN 7  // for use with ESP32
   #define USE_N2K_CAN 8  // for use with Teensy 3.1/3.2/3.5/3.6/4.0/4.1 boards
+  #define USE_N2K_CAN 9  // for use with Microchip PIC32MX1/2/5 boards
 
   There are also library specific defines:
   mcp_can:
@@ -63,6 +64,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define USE_N2K_MBED_CAN 6
 #define USE_N2K_ESP32_CAN 7
 #define USE_N2K_TEENSYX_CAN 8
+#define USE_N2K_PIC32MX_CAN 9
 
 
 // Select right CAN according to prosessor
@@ -88,6 +90,8 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define USE_N2K_CAN USE_N2K_ESP32_CAN
 #elif defined(__IMXRT1062__)
 #define USE_N2K_CAN USE_N2K_TEENSYX_CAN
+#elif defined(__PIC32MX__)
+#define USE_N2K_CAN USE_N2K_PIC32MX_CAN
 #else
 #define USE_N2K_CAN USE_N2K_MCP_CAN
 #endif
@@ -136,6 +140,10 @@ tmbedStream serStream;
 #elif USE_N2K_CAN == USE_N2K_ESP32_CAN
 #include <NMEA2000_esp32.h>       // https://github.com/ttlappalainen/NMEA2000_esp32
 tNMEA2000 &NMEA2000=*(new tNMEA2000_esp32());
+
+#elif USE_N2K_CAN == USE_N2K_PIC32MX_CAN
+#include <NMEA2000_pic32mx.h>		// https://github.com/davidhoy/NMEA2000_pic32mx
+tNMEA2000& NMEA2000=*(new tNMEA2000_pic32mx());
 
 #else  // Use USE_N2K_MCP_CAN
 // Use mcp_can library e.g. with Arduino Mega and external MCP2551 CAN bus chip
