@@ -529,6 +529,94 @@ inline bool ParseN2kChargerStatus(tN2kMsg &N2kMsg, unsigned char &Instance, unsi
  return ParseN2kPGN127507(N2kMsg, Instance,BatteryInstance,ChargeState,ChargerMode,Enabled,EqualizationPending,EqualizationTimeRemaining);
 }
 
+
+//*****************************************************************************
+// Charger Configurations Status - PGN 127510
+// Input:
+//  - ChargerInstance               8 bits, 0-252
+//  - BatteryInstance               8 bits, 0-252
+//  - ChargerEnabled                2 bits, See tN2kOnOff
+//  - ChargeCurrentLimit            8 bits, 1 bit = 1%, 0-252%
+//  - ChargerAlgorithm              4 bits, see tN2KChargerAlgorithm
+//  - ChargerMode                   4 bits, see tN2kChargerMode
+//  - EstimatedTemp                 4 bits, see tN2kChargerEstimatedTemp
+//  - EqualizeOneTimeEnabled        2 bits, see tN2kOnOff
+//  - OverChargeEnabled             2 bits, see tN2kOnOff
+//  - EqualizationTime              16 bit, 1 bit = 1 minute
+//
+void SetN2kPGN127510(tN2kMsg &N2kMsg,
+                     unsigned char ChargerInstance,
+                     unsigned char BatteryInstance,
+                     tN2kOnOff ChargerEnabled,
+                     unsigned char ChargeCurrentLimit,
+                     tN2kChargerAlgorithm ChargerAlgoritm,
+                     tN2kChargerMode ChargerMode,
+                     tN2kChargerEstimatedTemp EstimatedTemp,
+                     tN2kOnOff EqualizationOneTimeEnabled,
+                     tN2kOnOff OverChargeEnabled,
+                     unsigned short EqualizationTime );
+
+inline void SetN2kChargerConfigStatus(tN2kMsg &N2kMsg, 
+                     unsigned char ChargerInstance,
+                     unsigned char BatteryInstance,
+                     tN2kOnOff ChargerEnabled,
+                     unsigned char ChargeCurrentLimit,
+                     tN2kChargerAlgorithm ChargerAlgorithm,
+                     tN2kChargerMode ChargerMode,
+                     tN2kChargerEstimatedTemp EstimatedTemp,
+                     tN2kOnOff EqualizationOneTimeEnabled,
+                     tN2kOnOff OverChargeEnabled,
+                     unsigned short EqualizationTime) {
+    SetN2kPGN127510(N2kMsg, 
+                    ChargerInstance,
+                    BatteryInstance,
+                    ChargerEnabled,
+                    ChargeCurrentLimit,
+                    ChargerAlgorithm,
+                    ChargerMode,
+                    EstimatedTemp,
+                    EqualizationOneTimeEnabled,
+                    OverChargeEnabled,
+                    EqualizationTime);
+}
+
+bool ParseN2kPGN127510(tN2kMsg &N2kMsg, 
+                     unsigned char &ChargerInstance,
+                     unsigned char &BatteryInstance,
+                     tN2kOnOff &ChargerEnabled,
+                     unsigned char &ChargeCurrentLimit,
+                     tN2kChargerAlgorithm &ChargerAlgorithm,
+                     tN2kChargerMode &ChargerMode,
+                     tN2kChargerEstimatedTemp &EstimatedTemp,
+                     tN2kOnOff &EqualizationOneTimeEnabled,
+                     tN2kOnOff &OverChargeEnabled,
+                     unsigned short &EqualizationTime);
+
+inline bool ParseN2kChargerConfigStatus(tN2kMsg &N2kMsg,
+                     unsigned char &ChargerInstance,
+                     unsigned char &BatteryInstance,
+                     tN2kOnOff &ChargerEnabled,
+                     unsigned char &ChargeCurrentLimit,
+                     tN2kChargerAlgorithm &ChargerAlgorithm,
+                     tN2kChargerMode &ChargerMode,
+                     tN2kChargerEstimatedTemp &EstimatedTemp,
+                     tN2kOnOff &EqualizationOneTimeEnabled,
+                     tN2kOnOff &OverChargeEnabled,
+                     unsigned short &EqualizationTime) {
+ return ParseN2kPGN127510(N2kMsg,
+                     ChargerInstance,
+                     BatteryInstance,
+                     ChargerEnabled,
+                     ChargeCurrentLimit,
+                     ChargerAlgorithm,
+                     ChargerMode,
+                     EstimatedTemp,
+                     EqualizationOneTimeEnabled,
+                     OverChargeEnabled,
+                     EqualizationTime);
+}
+
+
 //*****************************************************************************
 // Battery Status
 // Input:
@@ -590,6 +678,75 @@ inline bool ParseN2kBatConf(const tN2kMsg &N2kMsg, unsigned char &BatInstance, t
 	return ParseN2kPGN127513(N2kMsg,BatInstance,BatType,SupportsEqual,BatNominalVoltage,BatChemistry,BatCapacity,BatTemperatureCoefficient,
 				PeukertExponent,ChargeEfficiencyFactor);
 }
+
+
+//*****************************************************************************
+// Converter (inverter/charger) Status
+// 
+// Input:
+//  - SequenceID            Sequence ID, 0-252
+//  - ConnectionNbr         Connection number, 0-252
+//  - OperatingState        See tN2kConverterOperatingState
+//  - TemperatureState      See tN2kConverterTempState
+//  - OverloadState         See tN2kConverterOverloadState
+//  - LowVoltageState       See tN2kConverterLowVoltageState
+//  - RippleState           See tN2kConverterRippleState
+
+void SetN2kPGN127750(tN2kMsg &N2kMsg, 
+                     unsigned char SequenceID, 
+                     unsigned char ConnectionNbr,
+                     tN2kConverterOperatingState OperatingState,
+                     tN2kConverterTempState TemperatureState,
+                     tN2kConverterOverloadState OverloadState,
+                     tN2kConverterLowVoltageState LowVoltageState,
+                     tN2kConverterRippleState RippleState);
+
+inline void SetN2kConverterStatus(tN2kMsg &N2kMsg, 
+                                  unsigned char SequenceID,
+                                  unsigned char ConnectionNbr,
+                                  tN2kConverterOperatingState OperatingState,
+                                  tN2kConverterTempState TemperatureState,
+                                  tN2kConverterOverloadState OverloadState,
+                                  tN2kConverterLowVoltageState LowVoltageState,
+                                  tN2kConverterRippleState RippleState) {
+   SetN2kPGN127750(N2kMsg,
+                   SequenceID, 
+                   ConnectionNbr, 
+                   OperatingState,
+                   TemperatureState,
+                   OverloadState,
+                   LowVoltageState,
+                   RippleState);
+}
+
+bool ParseN2kPGN127750(const tN2kMsg &N2kMsg, 
+                       unsigned char &SequenceID, 
+                       unsigned char &ConnectionNbr,
+                       tN2kConverterOperatingState &OperatingState,
+                       tN2kConverterTempState &TemperatureState,
+                       tN2kConverterOverloadState &OverloadState,
+                       tN2kConverterLowVoltageState &LowVoltageState,
+                       tN2kConverterRippleState &RippleState);
+
+inline bool ParseN2kConverterStatus(const tN2kMsg &N2kMsg, 
+                                    unsigned char &SequenceID, 
+                                    unsigned char &ConnectionNbr,
+                                    tN2kConverterOperatingState &OperatingState,
+                                    tN2kConverterTempState &TemperatureState,
+                                    tN2kConverterOverloadState &OverloadState,
+                                    tN2kConverterLowVoltageState &LowVoltageState,
+                                    tN2kConverterRippleState &RippleState) {
+	return ParseN2kPGN127750(N2kMsg, 
+                             SequenceID, 
+                             ConnectionNbr,
+                             OperatingState,
+                             TemperatureState,
+                             OverloadState,
+                             LowVoltageState,
+                             RippleState);
+}
+
+
 
 //*****************************************************************************
 // Leeway
@@ -1413,4 +1570,18 @@ inline bool ParseN2kTrimTab(const tN2kMsg &N2kMsg, int8_t &PortTrimTab, int8_t &
   return ParseN2kPGN130576(N2kMsg, PortTrimTab, StbdTrimTab);
 }
 
+
+//*****************************************************************************
+// Fluid Level
+// Fluid Level is a percentage 0 to 100% where 0 is empty and 100 is full
+// Input:
+//  - FluidInstance         Tank number
+//  - FluidType             0=Fuel,1=Fresh Water,2=Waste Water,
+//                          3=Live Well,4=Oil,5=Black Water,6=Gasoline
+//  - FluidLevel            0-100%
+//  - TankCapacity          Tank capacity in cubic meters
+
+// Output:
+//  - N2kMsg                NMEA2000 message ready to be send.
+void SetN2kPGN127505(tN2kMsg &N2kMsg, int8_t FluidInstance, int8_t FluidType, int16_t FluidLevel, uint32_t TankCapacity);
 #endif

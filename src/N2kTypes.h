@@ -283,7 +283,9 @@ enum tN2kMagneticVariation {
 
 enum tN2kOnOff  {
                             N2kOnOff_Off=0,  // No, Off, Disabled
+                            N2kOnOff_Disabled=0,
                             N2kOnOff_On=1, // Yes, On, Enabled
+                            N2kOnOff_Enabled=1,
                             N2kOnOff_Error=2, // Error
                             N2kOnOff_Unavailable=3 // Unavailable
                           };
@@ -309,7 +311,66 @@ enum tN2kChargerMode {
                             N2kCM_Echo=3,
                             N2kCM_Unavailable=15
                           };
+                          
+enum tN2kChargerAlgorithm {
+                            N2kCA_Trickle=0,
+                            N2kCA_CVCC=1,
+                            N2kCA_TwoStage_NoFloat=2,
+                            N2kCA_ThreeStage=3,
+                            N2kCA_Error=0x0E,
+                            N2kCA_Unavailable=0x0F
+                          };     
+                          
+enum tN2kChargerEstimatedTemp {
+                            N2kCET_Cold=0,
+                            N2kCET_Warm=1,
+                            N2kCET_Hot=2,
+                            N2kCET_Error=0x0E,
+                            N2kCET_Unavailable=0x0F
+                          };                          
+                          
+enum tN2kConverterOperatingState {
+                            N2kCOS_Off=0,
+                            N2kCOS_LowPowerMode=1,
+                            N2kCOS_Fault=2,
+                            N2kCOS_Bulk=3,
+                            N2kCOS_Absorption=4,
+                            N2kCOS_Float=5,
+                            N2kCOS_Storage=6,
+                            N2kCOS_Equalize=7,
+                            N2kCOS_PassThru=8,
+                            N2kCOS_Inverting=9,
+                            N2kCOS_Assisting=10,
+                            N2kCOS_Unavailable=255            
+                          };
+                          
+enum tN2kConverterTempState {
+                            N2kCTS_OK=0,
+                            N2kCTS_Warning=1,
+                            N2kCTS_Overload=2,
+                            N2kCTS_Unavailable=3
+                          };
 
+enum tN2kConverterOverloadState {
+                            N2kCOLS_OK=0,
+                            N2kCOLS_Warning=1,
+                            N2kCOLS_Overload=2,
+                            N2kCOL_Unavailable=3
+                          };
+                          
+enum tN2kConverterLowVoltageState {
+                            N2kCLVS_OK=0,
+                            N2kCLVS_Warning=1,
+                            N2kCLVS_LowVoltage=2,
+                            N2kCLVS_Unavailable=3
+                          };
+                          
+enum tN2kConverterRippleState {
+                            N2kCRS_OK=0,
+                            N2kCRS_Warning=1,
+                            N2kCRS_RippleTooHigh=2,
+                            N2kCRS_Unavailable=3
+                          };
 enum tN2kSteeringMode {
                             N2kSM_MainSteering=0,
                             N2kSM_NonFollowUpDevice=1,

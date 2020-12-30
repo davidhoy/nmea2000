@@ -600,6 +600,118 @@ bool ParseN2kPGN127513(const tN2kMsg &N2kMsg, unsigned char &BatInstance, tN2kBa
   return true;
 }
 
+
+//*****************************************************************************
+// Converter (inverter/charger) Status
+void SetN2kPGN127750(tN2kMsg &N2kMsg, 
+                     unsigned char SequenceID, 
+                     unsigned char ConnectionNbr,
+                     tN2kConverterOperatingState OperatingState,
+                     tN2kConverterTempState TemperatureState,
+                     tN2kConverterOverloadState OverloadState,
+                     tN2kConverterLowVoltageState LowVoltageState,
+                     tN2kConverterRippleState RippleState) {
+    N2kMsg.SetPGN(127750L);
+    N2kMsg.Priority=6;
+    N2kMsg.AddByte(SequenceID);
+    N2kMsg.AddByte(ConnectionNbr);
+    N2kMsg.AddByte(OperatingState);
+    uint8_t v = 0;
+    v  = (TemperatureState << 0);
+    v |= (OverloadState    << 2);
+    v |= (LowVoltageState  << 4);
+    v |= (RippleState      << 6);
+    N2kMsg.AddByte(v);
+    N2kMsg.Add4ByteUInt(0xFFFFFFFF);        // Reserved, 32 bits, all 1's
+}
+
+//*****************************************************************************
+bool ParseN2kPGN127750(const tN2kMsg &N2kMsg, 
+                       unsigned char &SequenceID, 
+                       unsigned char &ConnectionNbr,
+                       tN2kConverterOperatingState &OperatingState,
+                       tN2kConverterTempState &TemperatureState,
+                       tN2kConverterOverloadState &OverloadState,
+                       tN2kConverterLowVoltageState &LowVoltageState,
+                       tN2kConverterRippleState &RippleState) {
+  if (N2kMsg.PGN!=127750) return false;
+  int Index=0;
+  unsigned char v;
+  SequenceID = N2kMsg.GetByte(Index);
+  ConnectionNbr = N2kMsg.GetByte(Index);
+  OperatingState = (tN2kConverterOperatingState)N2kMsg.GetByte(Index);
+  v = N2kMsg.GetByte(Index);
+  TemperatureState = (tN2kConverterTempState)      ((v >> 0) & 0x03);
+  OverloadState    = (tN2kConverterOverloadState)  ((v >> 2) & 0x03);
+  LowVoltageState  = (tN2kConverterLowVoltageState)((v >> 4) & 0x03);
+  RippleState      = (tN2kConverterRippleState)    ((v >> 6) & 0x03);
+   
+  return true;
+}
+
+//*****************************************************************************
+// Charger Config Status - PGN 127510
+void SetN2kPGN127510(tN2kMsg &N2kMsg,
+                     unsigned char ChargerInstance,
+                     unsigned char BatteryInstance,
+                     tN2kOnOff ChargerEnabled,
+                     unsigned char ChargeCurrentLimit,
+                     tN2kChargerAlgorithm ChargerAlgorithm,
+                     tN2kChargerMode ChargerMode,
+                     tN2kChargerEstimatedTemp EstimatedTemp,
+                     tN2kOnOff EqualizationOneTimeEnabled,
+                     tN2kOnOff OverChargeEnabled,
+                     unsigned short EqualizationTime) {
+    N2kMsg.SetPGN(127510L);
+    N2kMsg.Priority=6;
+    N2kMsg.AddByte(ChargerInstance);
+    N2kMsg.AddByte(BatteryInstance);
+    uint8_t v = 0;
+    v  = (ChargerEnabled << 0);
+    v |= 0xFC;                      // Reserved, 6 bits, all 1's
+    N2kMsg.AddByte(v);
+    N2kMsg.AddByte(ChargeCurrentLimit);
+    v  = (ChargerAlgorithm << 0);
+    v |= (ChargerMode      << 4);
+    N2kMsg.AddByte(v);
+    v  = (EstimatedTemp << 0);
+    v |= (EqualizationOneTimeEnabled << 4);
+    v |= (OverChargeEnabled          << 6);
+    N2kMsg.AddByte(v);
+    N2kMsg.Add2ByteUInt(EqualizationTime);
+}
+
+//*****************************************************************************
+bool ParseN2kPGN127510(const tN2kMsg &N2kMsg, 
+                       unsigned char &ChargerInstance,
+                       unsigned char &BatteryInstance,
+                       tN2kOnOff &ChargerEnabled,
+                       unsigned char &ChargeCurrentLimit,
+                       tN2kChargerAlgorithm &ChargerAlgorithm,
+                       tN2kChargerMode &ChargerMode,
+                       tN2kChargerEstimatedTemp &EstimatedTemp,
+                       tN2kOnOff &EqualizationOneTimeEnabled,
+                       tN2kOnOff &OverChargeEnabled,
+                       unsigned short &EqualizationTime) {
+    if (N2kMsg.PGN!=127510) return false;
+    int Index=0;
+    unsigned char v;
+    ChargerInstance = N2kMsg.GetByte(Index);
+    BatteryInstance = N2kMsg.GetByte(Index);
+    v = N2kMsg.GetByte(Index);
+    ChargerEnabled = (tN2kOnOff)((v >> 0) & 0x03);
+    v = N2kMsg.GetByte(Index);
+    ChargerAlgorithm = (tN2kChargerAlgorithm)((v >> 0) & 0x0F);
+    ChargerMode      = (tN2kChargerMode)     ((v >> 4) & 0x0F);
+    v = N2kMsg.GetByte(Index);
+    EstimatedTemp              = (tN2kChargerEstimatedTemp)((v >> 0) & 0x0F);
+    EqualizationOneTimeEnabled = (tN2kOnOff)((v >> 4) & 0x03);
+    OverChargeEnabled          = (tN2kOnOff)((v >> 6) & 0x03);
+    EqualizationTime = N2kMsg.Get2ByteUInt(Index);
+   
+    return true;
+}
+
 //*****************************************************************************
 // Leeway
 void SetN2kPGN128000(tN2kMsg &N2kMsg, unsigned char SID, double Leeway) {
@@ -1662,3 +1774,14 @@ bool ParseN2kPGN130576(const tN2kMsg &N2kMsg, int8_t &PortTrimTab, int8_t &StbdT
   return true;
 }
 
+//*****************************************************************************
+// Fluid Level
+// 
+void SetN2kPGN127505(tN2kMsg &N2kMsg, int8_t FluidInstance, int8_t FluidType, int16_t FluidLevel, uint32_t TankCapacity) {
+    N2kMsg.SetPGN(127505L);
+    N2kMsg.Priority=6;
+    N2kMsg.AddByte((FluidInstance & 0x0F) | ((FluidType & 0x0F) << 4));
+    N2kMsg.Add2ByteInt(FluidLevel);
+    N2kMsg.Add4ByteUInt(TankCapacity);
+    N2kMsg.AddByte(0xFF); // Reserved.
+}
