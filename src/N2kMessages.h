@@ -55,6 +55,8 @@ inline double CoulombToAh(double v) { return N2kIsNA(v)?v:v/3600; }
 inline double hToSeconds(double v) { return N2kIsNA(v)?v:v*3600; }
 inline double SecondsToh(double v) { return N2kIsNA(v)?v:v/3600; }
 inline double msToKnots(double v) { return N2kIsNA(v)?v:v*3600/1852.0; }
+inline double galToCuM(double v) { return N2kIsNA(v)?v:v*0.003785412; }
+inline double CuMToGal(double v) { return N2kIsNA(v)?v:v/0.003785412; } 
 
 //*****************************************************************************
 // System date/time
