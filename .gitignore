@@ -47,3 +47,4 @@ build
 tags
 NMEA2000.X/.generated_files/
 NMEA2000.X/dist/
+NMEA2000/Debug/

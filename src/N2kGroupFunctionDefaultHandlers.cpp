@@ -290,8 +290,8 @@ bool tN2kGroupFunctionHandlerForPGN126996::HandleRequest(const tN2kMsg &N2kMsg,
     tN2kGroupFunctionParameterErrorCode FieldErrorCode;
     bool FoundInvalidField=false;
     size_t strSize=Max_N2kProductInfoStrLen;
-    char Query[strSize];
-    char CurVal[strSize];
+    char Query[Max_N2kProductInfoStrLen];
+    char CurVal[Max_N2kProductInfoStrLen];
 
     StartParseRequestPairParameters(N2kMsg,Index);
     // Next read new field values. Note that if message is not broadcast, we need to parse all fields always.
