@@ -96,7 +96,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define USE_N2K_CAN USE_N2K_PIC32MX_CAN
 #elif defined(__WIN32__)
 #define USE_N2K_CAN USE_N2K_WIN32_CAN
-#else 
+#else
 #define USE_N2K_CAN USE_N2K_MCP_CAN
 #endif
 #endif
@@ -150,7 +150,7 @@ tNMEA2000 &NMEA2000=*(new tNMEA2000_esp32());
 tNMEA2000& NMEA2000=*(new tNMEA2000_pic32mx());
 
 #elif USE_N2K_CAN == USE_N2K_WIN32_CAN
-#include <NMEA2000_win32.h>		// https://github.com/davidhoy/NMEA2000_win32
+#include <NMEA2000_win32.h>			// https://github.com/davidhoy/NMEA2000_win32
 tNMEA2000& NMEA2000 = *(new tNMEA2000_win32(1,1));
 
 #else  // Use USE_N2K_MCP_CAN

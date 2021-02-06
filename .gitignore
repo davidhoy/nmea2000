@@ -48,3 +48,5 @@ tags
 NMEA2000.X/.generated_files/
 NMEA2000.X/dist/
 NMEA2000/Debug/
+NMEA2000.X/nbproject/Makefile-genesis.properties
+NMEA2000.X/nbproject/private/private.xml
