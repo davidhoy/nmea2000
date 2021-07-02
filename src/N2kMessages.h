@@ -58,6 +58,8 @@ inline double msToKnots(double v) { return N2kIsNA(v)?v:v*1.94384449244060475161
 inline double KnotsToms(double v) { return N2kIsNA(v)?v:v*0.51444444444444444444444444444444L; } // 1852L/3600.0L
 inline double galToCuM(double v) { return N2kIsNA(v)?v:v*0.003785412; }
 inline double CuMToGal(double v) { return N2kIsNA(v)?v:v/0.003785412; }  
+inline double FeetToMeters(double v) { return N2kIsNA(v)?v:v*0.3048; }
+inline double MetersToFeet(double v) { return N2kIsNA(v)?v:v/0.3048; }
 
 //*****************************************************************************
 // System date/time
