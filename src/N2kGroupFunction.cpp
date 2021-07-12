@@ -108,7 +108,7 @@ tN2kGroupFunctionTransmissionOrPriorityErrorCode tN2kGroupFunctionHandler::GetRe
   // In NMEA tests "C.3.13.2  Expanded Acknowledgment Message Timing" tool is Old
   // and does not know interval 0xFFFFFFFE=Restore Default Interval. So to pass
   // that test, that has to be commented out
-  return (TransmissionInterval==0xFFFFFFFF || TransmissionInterval==0xFFFFFFFE?
+  return (TransmissionInterval==0xFFFFFFFF /*|| TransmissionInterval==0xFFFFFFFE*/?
           N2kgfTPec_Acknowledge:
           N2kgfTPec_TransmitIntervalOrPriorityNotSupported);
 }
